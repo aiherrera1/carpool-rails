@@ -1,0 +1,65 @@
+.navbar{
+    background-color: white;
+    z-index: 10; // Keep navigation on top layer
+    a:link, a:visited{
+        margin: 0px;
+        padding: 10px;
+    }
+    a:hover{
+        color: var(--accent-color);
+    }
+    ul{
+        list-style: none;
+        margin: 0;
+        padding-left: 50px;
+        padding-right: 0;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.1);
+    }
+    li{
+        display: inline;
+        vertical-align: middle;
+
+        &:last-child{
+            float: right;
+            margin-right: 80px;
+        }
+    }
+
+    .div-log-in{
+        padding-top: 15px;
+        vertical-align: middle;
+    }
+
+    .sign-up{
+        display: inline;
+        a{
+            background-color: green;
+            color: white;
+        }
+    }
+    .dropdown{
+        padding-top: 20px;
+        position: relative;
+        display: inline-block;
+    }
+    .dropdown-content{
+        line-height: 200%;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-right: 30px;
+        display: none;
+        position: absolute;
+        background-color: white;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        a{
+            width: 100%;
+            white-space: nowrap;
+        }
+    }
+    .dropdown:hover .dropdown-content{
+        display: block;
+    }
+}

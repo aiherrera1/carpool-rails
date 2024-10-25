@@ -1,0 +1,15 @@
+
+<%= form_with(model: report, local: true) do |form| %>
+
+  <div class="field">
+    <%= form.label :comment %>
+    <br>
+    <%= form.text_area :comment, size: "70x5" %>
+  </div>
+
+ 
+  <div>
+    <%= form.submit %>
+  </div>
+
+<% end %>

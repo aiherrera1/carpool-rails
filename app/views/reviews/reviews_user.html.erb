@@ -1,0 +1,63 @@
+
+<link rel= "stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<h1>Reviews about <%= @user.name %></h1>
+<div class = "review-user">
+  <h4>Average Rating
+    <% for star in 1..@user.average_rating do %>
+      <span class="fa fa-star checked"></span>
+    <% end %>
+
+    <% if @user.average_rating != 5 %>
+      <% for star in 1..(5-@user.average_rating) do %>
+        <span class="fa fa-star unchecked"></span>
+      <% end %>
+    <% end %>
+  </h4>
+
+
+  <% if not @user.driver.nil? %>
+
+    <h4>Passenger Rating
+      <% for star in 1..@user.passenger_average_rating do %>
+        <span class="fa fa-star checked"></span>
+      <% end %>
+
+      <% if @user.passenger_average_rating != 5 %>
+        <% for star in 1..(5-@user.passenger_average_rating) do %>
+          <span class="fa fa-star unchecked"></span>
+        <% end %>
+      <% end %>
+    </h4>
+
+    <h4>Driver Rating
+      <% for star in 1..@user.driver_average_rating do %>
+        <span class="fa fa-star checked"></span>
+      <% end %>
+
+      <% if @user.driver_average_rating != 5 %>
+        <% for star in 1..(5-@user.driver_average_rating) do %>
+          <span class="fa fa-star unchecked"></span>
+        <% end %>
+      <% end %>
+    </h4>
+  <% end %>
+</div>    
+
+
+
+<% if @reviews.size.zero? %>
+  <p>This user does not have any reviews about them </p>
+<% end %>
+    
+<% @reviews.each do |review| %>
+  <% if review.from_user.nil? %>
+    <p>From: Deleted User</p>
+  <% else %>
+    <p>From: <%= review.from_user.name %></p>
+  <% end %>
+  <p>Stars: <%= review.stars %></p>
+  <p>Title: <%= review.title %></p>
+  <p>Comment: <%= review.comment %></p> 
+  <p>Type of review: <%= review.type_of_review %></p>
+  <p>-----------------</p>
+<% end %>

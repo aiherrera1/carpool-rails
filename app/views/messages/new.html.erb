@@ -1,0 +1,18 @@
+<div id="carpool-id" data-room-id ="<%= @carpool.try(:id)%>" ></div>
+<div id="user-id" data-user-id ="<%= current_user.id %>"></div>
+<div class="content">
+  <p><%= @carpool.summary %> </p>
+  <p><%= link_to "Go to Carpool", carpool_path(@carpool) %></p>
+  <div id="messages" >
+      <% @messages.each do |message| %>
+        <%= render 'messages/message', message: message%>
+      <% end %>
+  </div>
+
+  <%= form_with scope: :message, url: messages_path, remote: true do |form| %>
+    <p>
+      <%= form.text_field :message_text, :required => 'required', :autofocus => true, id: 'message_text'%>
+      <%= form.submit "Send Message", id: 'chat_btn' %>
+    </p>
+  <% end %>
+</div>

@@ -1,0 +1,7 @@
+
+<div class="content">
+  <h2>Edit Driver Profile</h2>
+  <%= render 'form' %>
+  <%= link_to "Delete Driver Profile", driver_path(@driver), method: :delete %>
+  <%= link_to 'Back', user_show_path(current_user.id) %>
+</div>

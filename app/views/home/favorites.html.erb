@@ -1,0 +1,16 @@
+
+<div class="content">
+  <div class="home_favorites">
+    <h1>Favorite users</h1>
+    
+    <% if @favorites.size.zero? %>
+      <p>You don't have any favorite users yet</p>
+      
+    <% end %>
+    
+    <% @favorites.each do |favorite| %>
+      <p><%= favorite.favorite_user.name %> <%= link_to "See Profile", user_show_path(favorite.favorite_user) %> <%= link_to "Remove From Favorites", remove_favorite_favorite_path(favorite.favorite_user) %></p>
+    <% end %>
+    
+  </div>
+</div>

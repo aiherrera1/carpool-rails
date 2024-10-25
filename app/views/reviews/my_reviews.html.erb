@@ -1,0 +1,25 @@
+
+<div class="content">
+  <h1>My Reviews</h1>
+
+
+  <% if @reviews.size.zero? %>
+    <p>You haven't made any reviews yet. </p>
+  <% end %>
+
+
+  <% @reviews.each do |review| %>
+    
+    <% if review.to_user.nil? %>
+    <p>To: Deleted User</p>
+    <% else %>  
+    <p>To: <%= review.to_user.name %></p>
+    <% end %>
+    <p>Stars: <%= review.stars %></p>
+    <p>Title: <%= review.title %></p>
+    <p>Comment: <%= review.comment %></p> 
+    <p>Type of review: Not implemented yet <%= review.type_of_review %></p>
+    <%= link_to "Edit Review", reviews_edit_path(review.id) %> | <%= link_to "Delete Review", review_path(review.id), method: :delete%>
+    <p>-----------------</p>
+  <% end %>
+</div>

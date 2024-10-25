@@ -1,0 +1,12 @@
+<div class="content">
+  <h1>Rides I'm in</h1>
+
+  <% if @carpools.count == 0%>
+    <div>
+    <p>You are not part of any carpools yet!</p>
+    </div>
+  <% else%>
+    <%= render 'carpool_info' %>
+  <% end %>
+  <%= link_to "Back", root_path %>
+</div>

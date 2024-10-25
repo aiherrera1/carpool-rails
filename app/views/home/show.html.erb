@@ -1,0 +1,87 @@
+
+<link rel= "stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="user-profile">
+  <div class="home-user">
+    <div class="column-item">
+    <h1><%=@user.name%>
+    <% for star in 1..@user.average_rating do %>
+      <span class="fa fa-star checked"></span>
+    <% end %>
+    <% if @user.average_rating != 5 %>
+      <% for star in 1..(5-@user.average_rating) do %>
+        <span class="fa fa-star unchecked"></span>
+      <% end %>
+    <% end %>
+    </h1>
+
+    <% if @user.avatar.attached? %>
+      <%= image_tag @user.avatar.variant(resize: "300x300!"), class: "picture" %>
+    <% else %>
+      <%= image_tag 'default_avatar.jpeg', height: 300, width: 300, class: "picture" %>
+    <% end %>
+      <% if @user == current_user %>
+        <%= link_to image_tag("icons/edit.png", height: 15, width: 15) %>
+        <%= link_to "Edit Profile", edit_user_registration_path %>
+        <br>
+        <% if current_user.driver %>
+          <%= link_to image_tag("icons/driver.png", height: 15, width: 15) %>
+          <%= link_to "Edit Driver Profile", drivers_edit_path(@user.driver) %>
+        <% else %>
+          <%= link_to image_tag("icons/driver-license-with-car.png", height: 15, width: 15) %>
+          <%= link_to "Register as Driver", drivers_new_path %>
+        <% end %>
+      <% else %>
+        <% if not current_user.favorite?(@user) %>  
+          <br>
+          <%= link_to image_tag("icons/favorite.png", height: 15, width: 15) %>
+          <%= link_to "Add to favorites", add_favorite_favorite_path(@user)%>
+        <% end %>
+      <% end %>
+      <br>
+      <% if current_user == @user %>
+        <%= link_to image_tag("icons/car-ride.png", height: 15, width: 15) %>
+        <%= link_to "Rides I'm in", carpools_rides_im_in_path%>
+        <% if current_user.driver %> 
+          <br>
+          <%= link_to image_tag("icons/give-a-piggy-back-ride.png", height: 15, width: 15) %>
+          <%= link_to "Offered Rides ", user_rides_path(current_user.id)%>
+        <% end %>
+      <% else %>
+        <%= link_to image_tag("icons/give-a-piggy-back-ride.png", height: 15, width: 15) %>
+        <%= link_to "#{@user.name}'s offered Rides", user_rides_path(@user.id)%>
+      <% end %><br>
+        
+      
+      <% if current_user == @user %>
+        <%= link_to image_tag("icons/review.png", height: 15, width: 15) %>
+        <%= link_to image_tag("icons/documents.png", height: 15, width: 15) %>
+        <%= link_to "See Reviews", reviews_user_path(@user.id)%>   <br>
+        <%= link_to "My Reviews", my_reviews_path(@user.id) %> <br>
+      <% else %>
+        <%= link_to image_tag("icons/documents.png", height: 15, width: 15) %>
+        <%= link_to "See Reviews", reviews_user_path(@user.id)%>   <br>
+        <%= link_to image_tag("icons/alert.png", height: 15, width: 15) %>
+        <%= link_to "Report User", new_report_path(@user.id)%> <br>
+      <% end %>
+      
+      <br>
+    </div>
+
+    <div class="column-item">
+      <p>About</p>
+      <hr class="dashed">
+        <p><%=@user.description %></p>
+        <% if !@user.driver.nil? %>
+          <p>Driver info</p>
+          <hr class="dashed">
+              <p>License ID: <%= @user.driver.driver_license_number %></p>
+              <p>License plate: <%= @user.driver.nice_license_plate %></p>
+              <p>Car description: <%= @user.driver.car_description %></p>
+        <% end %>
+      <p>Contact</p>
+      <hr class="dashed">
+        <p>Phone number: <%=@user.phone %></p>
+        <p>Address: <%=@user.address %></p>
+    </div>
+  </div>
+</div>

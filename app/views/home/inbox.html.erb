@@ -1,0 +1,16 @@
+
+<div class="content">
+  <div class="home_inbox">
+    <h1>Inbox</h1>
+
+    <%= link_to "Notifications", home_notifications_path %>
+    
+    <% if @chatrooms.size.zero? %>
+      <p>You don't have any groupchats yet. Request a ride to be in one!</p>
+    <% end %>
+    
+    <% @chatrooms.each do |chatroom| %>
+      <p><%= link_to "Groupchat: #{chatroom.summary}", new_carpool_message_path(chatroom.id) %></p>
+    <% end %>
+  </div>
+</div>

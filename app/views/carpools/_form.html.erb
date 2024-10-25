@@ -1,0 +1,51 @@
+
+  <%= form_with scope: :carpool, url: carpools_path, local: true do |form| %>
+
+    <p>
+      <%= form.label :from_location, :'From' %>
+      <br>
+      <% if @carpool %>
+        <%= form.select :from_location, @from, selected: @selected_from%>
+      <% else %>
+        <%= form.select :from_location, @from %>
+      <% end %>
+    </p>
+    <p>
+      <%= form.label :to_location, :'To' %>
+      <br>
+      <% if @carpool %>
+        <%= form.select :to_location, @to, selected: @selected_to%>
+      <% else %>
+        <%= form.select :to_location, @to %>
+      <% end %>
+    </p>
+    <p>
+      <%= form.label :dropoff_pickup, :"#{@description}" %>
+      <br>
+      <%= form.text_field :dropoff_pickup, :required => 'required', minlength: 5 , maxlength: 40%>
+    </p>
+    <p>
+      <%= form.label :date, :'Date' %>
+      <br>
+      <%= form.date_field :date, :required => 'required', min: Date.today, value: Date.today%>
+    </p>
+    <p>
+      <%= form.label :time_of_departure, :'Leaving at' %>
+      <br>
+      <%= form.select :time_of_departure, @hours %>
+    </p>
+    <p>
+      <%= form.label :price, :'Price' %>
+      <br>
+      <%= form.number_field :price, in: 0..2500, step: 500 , :required => 'required', value: 0 %>
+    </p>
+    <p>
+      <%= form.label :open_spots, :'Open Spots' %>
+      <br>
+      <%= form.number_field :open_spots, in: 1..10, step: 1, :required => 'required', value: 1, min: 1 %>
+    </p>
+
+    <p>
+      <%= form.submit %>
+    </p>
+  <% end %>

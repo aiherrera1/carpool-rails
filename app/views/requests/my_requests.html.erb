@@ -1,0 +1,26 @@
+<div class="content">
+  <h1>My Requests</h1>
+  <% if @requests.count == 0%>
+    <div>
+    <p>You do not have any requests</p>
+    </div>
+  <% else %>
+    <div>
+    <% @requests.each do |request|%>
+      <div>
+      <h3>Request</h3>
+      <p>Name: <%=request.user.name%></p>
+      <p>Carpool_id: <%=request.carpool_id%></p>
+      <p>Result: <%=request.result%></p>
+      <%= link_to "See carpool", carpool_path(request.carpool)%> 
+      
+      <% if request.result=="Accepted" %>
+        <p><%= link_to "Delete", request_path(request), method: :delete %> Deleting this request will remove you from the carpool</p>
+      <% else %>
+        <%= link_to "Delete", request_path(request), method: :delete %>  
+      <% end %>
+      </div>
+    <% end %>
+    </div>
+  <% end %>
+</div>

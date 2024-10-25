@@ -1,0 +1,105 @@
+<div class="content">
+  <div class="user-edit">
+    <h2>Edit Profile</h2>
+    <!--https://stackoverflow.com/questions/55989930/add-checkbox-to-edit-bool-value-of-user-in-devise-in-rails-->
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+      <%= render "devise/shared/error_messages" , resource: resource %>
+
+        <p> Basic info </p>
+        <hr class="dashed">
+        <div class="user-info">
+          <div class="field">
+          
+          <% if resource.avatar.attached? %>
+            <%= image_tag resource.avatar.variant(resize: "100x100!"), class: "circle" %>
+          <% else %>
+            <%= image_tag 'default_avatar.jpeg', height: 100, width: 100, class: "circle" %>
+          <% end %>
+          
+            <%= f.file_field :avatar, :accept => 'image/png, image/jpeg' %>
+          </div>
+          <div class="field">
+            <p>
+              <%= f.label :name %>
+            </p>
+            <%= f.text_field :name %>
+          </div>
+          <div class="field">
+            <p>
+              <%= f.label :email %>
+            </p>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+          </div>
+        </div>
+
+        <p> About </p>
+        <hr class="dashed">
+        <div class="user-info">
+          <div class="field">
+            <p>
+              <%= f.label :description %> (250 characters maximum)
+            </p>
+            <%= f.text_area :description, size: "70x5" , :maxlength=> 250 %>
+          </div>
+        </div>
+
+        <p> Contact </p>
+        <hr class="dashed">
+        <div class="user-info">
+          <div class="field">
+            <p>
+              <%= f.label :phone %>
+            </p>
+            <%= f.text_field :phone %>
+          </div>
+          <div class="field">
+            <p>
+              <%= f.label :address %>
+            </p>
+            <%= f.text_field :address %>
+          </div>
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %>
+            </div>
+            <% end %>
+        </div>
+
+        <p> Password </p>
+        <hr class="dashed">
+        <div class="user-info">
+          <div class="field">
+            <% f.label :password %>
+              <p> New password (<%= @minimum_password_length %> characters minimum)</p>
+              <%= f.password_field :password, autocomplete: "new-password" %>
+          </div>
+          <div class="field">
+            <% f.label :password_confirmation %>
+              <p> Confirm new password </p>
+              <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+          </div>
+        </div>
+
+        <p> Save changes </p>
+        <hr class="dashed">
+        <div class="user-info">
+          <div class="field">
+            <% f.label :current_password %>
+              <p>Current password to confirm your changes</p>
+              <%= f.password_field :current_password, autocomplete: "current-password" %>
+          </div>
+          <br>
+          <div class="actions">
+            <%= f.submit "Save" %>
+          </div>
+          <% end %>
+        </div>
+  </div>
+
+  <h2>Cancel my account</h2>
+  <p>
+    <%= button_to "Cancel my account" , registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %>
+  </p>
+
+  <%= link_to "Back" , :back %>
+</div>
+</div>

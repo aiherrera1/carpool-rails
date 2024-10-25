@@ -1,0 +1,7 @@
+<div>
+  <% if message.user.nil? %>  
+    <p><strong> Deleted User: </strong><%= message.message_text %></p>
+  <% else %>
+    <p><strong><%= message.user.name %>: </strong><%= message.message_text %></p>  
+  <% end %>   
+</div>

@@ -1,0 +1,11 @@
+
+<div class="content">
+  <% if current_user.id == @carpool.driver_id%>
+    <h2>Edit Ride</h2>
+    <%= render 'form' %>
+  <% else %>
+    <p>You are not supposed to be here</p>
+  <%end%>
+
+  <%= link_to 'Back', carpool_path(@carpool)%>
+</div>

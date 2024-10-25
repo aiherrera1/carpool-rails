@@ -1,0 +1,22 @@
+<div class="driver-edit">
+  <%= form_with model: @driver, local: true do |form| %>
+    <div class="field">
+      <%= form.label :driver_license_number %>
+      <br>
+      <%= form.text_field :driver_license_number, :required=> 'required' %>
+    </div>
+    <div class="field">
+      <%= form.label :license_plate %>
+      <br>
+      <%= form.text_field :license_plate, :required=> 'required', minlength: 6, maxlength: 6 %>
+    </div>
+    <div class="field">
+      <%= form.label :car_description %>
+      <br>
+      <%= form.text_field :car_description, :required=> 'required' %>
+    </div>
+    <p>
+      <%= form.submit "Register" %>
+    </p>
+    <% end %>
+</div>

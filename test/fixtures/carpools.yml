@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  driver_id: 1
+  from_location: MyString
+  dropoff_pickup: MyString
+  date: 2022-04-26
+  time_of_departure: MyString
+  price: 1
+  open_spots: 1
+  type_of_ride: MyString
+  open_for_request: false
+  to_location: MyString
+
+two:
+  driver_id: 1
+  from_location: MyString
+  dropoff_pickup: MyString
+  date: 2022-04-26
+  time_of_departure: MyString
+  price: 1
+  open_spots: 1
+  type_of_ride: MyString
+  open_for_request: false
+  to_location: MyString

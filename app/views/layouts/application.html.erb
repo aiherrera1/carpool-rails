@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> DCCarpool </title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <% if current_user %>
+        <% if current_user.banned %>
+        <ul>
+        <li><%= link_to image_tag("DCCarpool_logo_circle.png", height: 50, width: 50), root_path %></li>
+            <li>
+              <div class="dropdown">
+                <%= link_to current_user.name %>
+                <div class="dropdown-content">
+                  <%= link_to "Log Out", destroy_user_session_path, method: :delete %>
+                </div>
+              </div>
+            </li>
+        </ul>
+
+        <% else %>
+          <ul>
+          <!--
+            <li>
+            <%= image_tag 'DCCarpool_logo_circle.png', height:50, width:50 %>
+            </li>
+          -->
+            <li><%= link_to image_tag("DCCarpool_logo_circle.png", height: 50, width: 50), root_path %></li>
+            <li><%= link_to "Favorites", home_favorites_path %></li>
+            <li><%= link_to "Look for rides", carpools_index_path %></li>
+            <li><%= link_to "My requests", requests_my_requests_path %></li>
+            <% if current_user.driver %>
+              <li><%= link_to "Offer a ride", carpools_new_path%></li>
+            <% else %>
+              <li><%= link_to "Register as driver", drivers_new_path%></li>
+            <% end %>
+            <li><%= link_to "Inbox", home_inbox_path %></li>
+            
+            <% if current_user.admin %>
+              <li> <%= link_to "Reports", reports_path%> </li>
+            <% end %>
+            
+            <li>
+              <div class="dropdown">
+                <%= link_to current_user.name %>
+                <div class="dropdown-content">
+                  <%= link_to "Profile", user_show_path(current_user.id) %>
+                  <% if current_user.admin %>
+                    <%= link_to "Admin Links", admin_root_path%>
+                  <% end %>
+                  <% if not current_user.driver.nil? %>
+                    <%= link_to "My rides", user_rides_path(current_user.id) %>
+                  <% end %>
+                  <%= link_to "Log Out", destroy_user_session_path, method: :delete %>
+                </div>
+              </div>
+            </li>
+          </ul>
+        <% end %>
+      <% else %>
+      <ul>
+        <li><%= link_to image_tag("DCCarpool_logo_circle.png", height: 50, width: 50), root_path %></li>
+        <li><%= link_to "Look for rides", carpools_index_path %></li>
+        <li><%= link_to "About Us", home_aboutus_path %></li>
+        <li><div class="div-log-in">
+          <%= link_to "Log In", new_user_session_path %>
+          <div class="sign-up">
+            <%= link_to "Sign Up", new_user_registration_path %>
+          </div>
+        </div></li>
+      </ul>
+      <% end %>
+    </nav>
+    <!-- It adds an alert to the messages that generate the gem devise -->
+    <!--<span id="notice"><%= "Test Notice" %></span>-->
+    <span id="notice"><%= notice %></span>
+    <span id="alert"><%= alert %></span>
+
+    <%= yield %>
+    
+  <footer>
+    <p style="color:black">DCCarpool | Created by Group 44</p>
+  </footer>
+  </body>
+</html>

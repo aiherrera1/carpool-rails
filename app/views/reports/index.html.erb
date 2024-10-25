@@ -1,0 +1,15 @@
+<h1>Reports</h1>
+
+
+<% @list.each do |thing| %>
+  <% if not User.find_by(id: thing[0]).banned %> 
+    <p><%= User.find_by(id: thing[0]).name %>: Reports <%= thing[1]%> <%= link_to "Ban User", ban_user_report_path(thing[0]) %></p>
+  <% else %>
+    <p><%= User.find_by(id: thing[0]).name %>: Reports <%= thing[1]%> <%= link_to "Unban User", unban_user_report_path(thing[0]) %></p>
+  <% end %>
+  
+  
+<% end %>
+
+
+

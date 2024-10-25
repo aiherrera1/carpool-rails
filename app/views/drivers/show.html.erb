@@ -1,0 +1,8 @@
+<h2>Driver Profile</h2>
+
+<h3> <%= @driver.user.name %></h3>
+<p>License ID: <%= @driver.driver_license_number %></p>
+<p>License Plate: <%= @driver.nice_license_plate %></p>
+<p>Car Description: <%= @driver.car_description %></p>
+<p><%= link_to "Edit", drivers_edit_path(@driver)  %></p>
+<p><%= link_to "Delete Driver Profile", driver_path(@driver), method: :delete  %></p>

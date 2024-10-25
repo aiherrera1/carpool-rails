@@ -1,0 +1,146 @@
+<div class="content">
+  <div>
+    <h2>Carpool <%= "#{@carpool.from_location}-#{@carpool.to_location}" %></h2>
+  </div>
+
+  <div class="column-item">
+    <div>
+      <% if current_user.in_carpool(@carpool) %>
+        <p>
+          <%= link_to image_tag("icons/chat.png", height: 15, width: 15) %>
+          <%= link_to "Carpool Groupchat", new_carpool_message_path(@carpool.id) %>
+        </p> 
+      <% end %>
+      
+      <% if @carpool.completed? and @carpool.driver.user.id != current_user.id%>
+        <% if @carpool.can_review(current_user, @carpool.driver.user) %>
+          <p>
+            Driver: 
+            <%= "#{@carpool.driver.user.name}" %> 
+            <%= link_to image_tag("icons/profile-user.png", height: 15, width: 15) %> <%= link_to "See Profile", user_show_path(@carpool.driver_id) %> 
+            <%= link_to image_tag("icons/review.png", height: 15, width: 15) %> <%= link_to "Add a Review", new_review_path(@carpool.driver.user.id, @carpool.id) %></p>
+        <% else %>  
+          <p>Driver: <%= "#{@carpool.driver.user.name}" %> <%= link_to image_tag("icons/profile-user.png", height: 15, width: 15) %> <%= link_to "See Profile", user_show_path(@carpool.driver_id) %></p>
+        <% end %>
+      <% else %>
+      <p>Driver: <%= "#{@carpool.driver.user.name}" %> <%= link_to image_tag("icons/profile-user.png", height: 15, width: 15) %> <%= link_to "See Profile", user_show_path(@carpool.driver_id) %></p>
+      <% end %>
+      
+      <p>From: <%= @carpool.from_location %></p>
+      <p>To: <%= @carpool.to_location %></p>
+      <p><%= "#{@description}: #{@carpool.dropoff_pickup}" %></p>
+      <p><%= "When: #{@carpool.date.strftime('%A %B %d')}, at #{@carpool.time_of_departure}" %></p>
+      <p>Price: <%= @carpool.price %></p>
+      <p>Available Spots: <%= @carpool.open_spots %></p>
+      <p>Open for request: <%= @carpool.open_for_request.to_s.capitalize %></p>
+    </div>
+  </div>
+
+  <div class="column-item">
+    <div>
+      <h3>Passengers in Carpool</h3>
+        <% if @users_in_carpool.length == 0 %>
+          <p>This carpool doesn't have any passengers</p>
+        <% else %>
+          <% @users_in_carpool.each do |user| %>
+            <% if current_user.id == @carpool.driver_id %>
+              <% if @carpool.completed? %>
+                <% if @carpool.can_review(current_user, user) %>
+                  <li>
+                    <%= user.name %> <%= link_to image_tag("icons/profile-user.png", height: 15, width: 15) %> <%= link_to "See Profile", user_show_path(user) %>
+                    <%= link_to image_tag("icons/review.png", height: 15, width: 15) %> <%= link_to "Add a Review", new_review_path(user.id, @carpool.id) %>
+                  </li>
+                <% else %>
+                  <li> <%= user.name %> <%= link_to image_tag("icons/profile-user.png", height: 15, width: 15) %> <%= link_to "See Profile", user_show_path(user) %></li>
+                <% end %>
+              <% else %>
+                <% user_in_carpool= UserInCarpool.find_by(user_id: user.id, carpool_id: @carpool.id) %>
+                <li> 
+                  <%= user.name %> <%= link_to image_tag("icons/profile-user.png", height: 15, width: 15) %> <%= link_to "See Profile", user_show_path(user) %>
+                  <%= link_to image_tag("icons/cancel.png", height: 15, width: 15) %> <%= link_to "Remove", remove_from_carpool_users_in_carpool_path(user_in_carpool) %>
+                </li>
+              <% end %>
+            <% else %>
+              <% if @carpool.completed? %>
+                <% if @carpool.can_review(current_user, user) %>
+                  <li> 
+                    <%= user.name %> <%= link_to image_tag("icons/profile-user.png", height: 15, width: 15) %> <%= link_to "See Profile", user_show_path(user) %>
+                    <%= link_to image_tag("icons/review.png", height: 15, width: 15) %> <%= link_to "Add a Review", new_review_path(user.id, @carpool.id) %> 
+                  </li>
+                <% else %>
+                  <li> <%= user.name %> <%= link_to image_tag("icons/profile-user.png", height: 15, width: 15) %> <%= link_to "See Profile", user_show_path(user) %> </li>
+                <% end %>
+              <% else %>
+                  <li> <%= user.name %> <%= link_to image_tag("icons/profile-user.png", height: 15, width: 15) %> <%= link_to "See Profile", user_show_path(user) %> </li>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+    </div>
+  
+    <% if @carpool.completed? %>
+      <br>
+      
+      <% if @carpool.covid? %>
+        <p>Someone in this carpool had covid</p>  
+      <% else %>  
+        <%= link_to image_tag("icons/covid-19-2.png", height: 15, width: 15) %>
+        <%= link_to "Alert for covid", notify_covid_carpool_path(@carpool)%>
+      <% end %>
+      
+    <% else %>  
+      <div>
+        <% if current_user.id == @carpool.driver_id%>
+              <h3>Request</h3>
+            <% if @requests.length == 0 %>
+              <p>There aren't any current requests for this carpool</p>
+            <% else %>
+              <% @requests.each do |request| %>
+                <li> 
+                  Request of:
+                  <%= request.user.name %> <%= link_to image_tag("icons/profile-user.png", height: 15, width: 15) %> <%= link_to "See Profile", user_show_path(request.user) %>
+                  <%= link_to image_tag("icons/correct.png", height: 15, width: 15) %> <%= link_to "Accept", accept_request_path(request) %>
+                  <%= link_to image_tag("icons/cancel.png", height: 15, width: 15) %> <%= link_to "Reject", reject_request_path(request) %>
+                </li>
+              <% end %>
+            <% end %>
+          
+          <% if @carpool.open_for_request %>
+            <p>
+              <%= link_to image_tag("icons/lock.png", height: 15, width: 15) %> <%= link_to "Close for requests", toggle_open_for_request_carpool_path(@carpool) %> <br>
+              <%= link_to image_tag("icons/edit.png", height: 15, width: 15) %> <%= link_to "Edit", carpools_edit_path(@carpool) %> <br>
+              <%= link_to image_tag("icons/delete.png", height: 15, width: 15) %> <%= link_to "Delete Carpool", carpool_path(@carpool), method: :delete %>
+            </p>
+          <% else %>
+            <p>
+              <%= link_to image_tag("icons/unlocked.png", height: 15, width: 15) %> <%= link_to "Open for requests", toggle_open_for_request_carpool_path(@carpool) %> <br>
+              <%= link_to image_tag("icons/edit.png", height: 15, width: 15) %> <%= link_to "Edit", carpools_edit_path(@carpool) %> <br>
+              <%= link_to image_tag("icons/delete.png", height: 15, width: 15) %> <%= link_to "Delete Carpool", carpool_path(@carpool), method: :delete %> </p>
+          <% end %>
+          
+
+        <% else %>
+          <% if not current_user.request_status(@carpool.id)=="None" %>
+            <h3>Requests</h3>
+          <% end %>
+          <% if current_user.in_carpool(@carpool) %>
+            <p> <%= link_to image_tag("icons/exit.png", height: 15, width: 15) %> <%= link_to "Leave carpool", user_leave_carpool_path(@carpool) %></p>
+          <% elsif current_user.request_status(@carpool.id)=="Waiting"%>
+            <p>Your request for this carpool has been sent and it's waiting for aproval</p>
+            <p><%= link_to image_tag("icons/delete.png", height: 15, width: 15) %> <%= link_to "Cancel Request", request_path(current_user.user_request(@carpool)), method: :delete %> </p>
+          <% else %>
+            <% if current_user.request_status(@carpool.id)=="Rejected"%>
+              <p>Your request has been rejected</p>
+            <% elsif current_user.request_status(@carpool.id)=="Removed" %>
+              <p>You have been removed from this carpool</p>
+            <% end %>
+            <% if @carpool.open_for_request %>
+              <p><%= link_to image_tag("icons/raise-your-hand-to-ask.png", height: 15, width: 15) %> <%= link_to "Request", request_ride_request_path(@carpool) %></p>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+<%= link_to "Back", root_path %>

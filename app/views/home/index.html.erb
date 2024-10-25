@@ -1,0 +1,22 @@
+
+<div class="home-index">
+  <div class="home-bg"></div>
+
+  <div class="home-text">
+    <% if current_user %>
+      
+      <% if current_user.banned %>
+        <br>
+        <span>You have been banned</span>
+      <% else %>
+        <span>DCCarpool - The future of carpool</span>
+        <br>
+        <span>Welcome back!</span>
+      <% end %>
+
+    <% else %>
+      <span>DCCarpool - The future of carpool</span>
+
+    <% end %>
+  </div>
+</div>

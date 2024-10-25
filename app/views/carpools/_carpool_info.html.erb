@@ -1,0 +1,19 @@
+<div class="carpools-index">
+  <% @carpools.each do |carpool| %>
+    <div class="each-carpool">
+        
+        <% if carpool.driver.user.avatar.attached?%>  
+          <%= image_tag carpool.driver.user.avatar.variant(resize: "200x200!"), class: "circle" %>
+        <% else %>
+          <%= image_tag 'default_avatar.jpeg', height:200, width:200, class: "circle" %>
+        <% end %>
+        
+        <h3><%= "#{User.find_by(id: carpool.driver_id).name}" %></h3>
+        <p><%= "From: #{carpool.from_location}" %></p>
+        <p><%= "To: #{carpool.to_location}" %></p>
+        <p><%= "Type: #{carpool.type_of_ride}" %></p>
+        <p><%= "When: #{carpool.date.strftime('%A %B %d')}, at #{carpool.time_of_departure}" %></p>
+        <p><%= link_to "More info", carpool_path(carpool) %></p>
+    </div>
+  <% end %>
+</div>

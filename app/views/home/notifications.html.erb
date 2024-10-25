@@ -1,0 +1,15 @@
+
+<h1>Notifications</h1>
+
+<% if @notifications.size.zero? %>
+  <p>You don't have any notifications yet</p>
+<% else %>
+  <% @notifications.each do |notification| %>
+    
+    <% begin %>
+      <li><%= notification.message %> <%= link_to "See Carpool", carpool_path(Carpool.find(notification.carpool_id)) %></li>
+    <% rescue %>
+      <li><%= notification.message %> Deleted Carpool </li>
+    <% end %>
+  <% end %>  
+<% end %>

@@ -1,0 +1,29 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+.home-text{
+    text-shadow: 1px 1px 5px #000000;
+    position: absolute;
+    top: 40%;
+    left: 10%;
+    font-size: 5rem;
+    color: white;
+}
+
+.home-bg{
+    width: 100%;
+    height: 100vh;
+    background-image: image-url("carpool_bg.jpg");
+    background-size: cover;
+    filter: blur(2px);
+}
+
+.home-user{
+    .unchecked{ // Stars unchecked
+        color: rgba(0,0,0,0.5);
+    }
+    .checked{ // Stars checked color
+        color: orange;
+    }
+}

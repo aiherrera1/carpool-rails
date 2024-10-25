@@ -1,0 +1,37 @@
+
+<div class="content">
+  <h2>Filters</h2>
+  <%= form_for :carpool, url: carpools_index_path, method: :get do |f|%>
+  <div class="carpools-filters">
+    <div class="item">
+      From: <%= f.text_field :from_location, value: @from_location %>
+      To: <%= f.text_field :to_location, value: @to_location %>
+    </div>
+    <div class="item">
+      Type: <%= f.select :from_to, ["From/To", "From Campus", "To Campus"], selected: @from_to %>
+    </div>
+    <div class="item">
+      From: <%= f.date_field :min_date, min: Date.today, value: @min_date %>
+    </div>
+    <div class="item">
+      Until: <%= f.date_field :max_date, min: Date.today, value: @max_date %>  
+    </div>
+    <div class="item">
+      Min Stars of Driver: <%= f.number_field :min_stars, min: 1 , max: 5, value: @min_stars%>
+    </div>
+    <div class="item">
+      Sort by Date: <%= f.select :sort_by, ["Soonest to Last", "Last to Soonest"], selected: @sort_by%>
+    </div>
+    <%= f.submit "Apply Filters" %> <%= link_to "Reset Filters", carpools_index_path %>
+  </div>
+  <% end %>
+    
+    
+  <div id="carpool-container">
+    <h1> Available Carpools </h1>
+      <% if @carpools.size.zero? %>
+        <p>There are not any offered carpools yet.</p>
+      <% end %>
+      <%= render 'carpool_info' %>
+  </div>
+</div>
